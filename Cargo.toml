@@ -1,0 +1,23 @@
+[package]
+name = "photonos"
+version = "0.1.0"
+edition = "2021"
+authors = ["Hervé Beraud <herveberaud.pro@gmail.com>"]
+description = "A wget-like CLI that renders JavaScript-powered pages using Playwright"
+license = "LGPL-2.1"
+readme = "README.md"
+repository = "https://github.com/4383/photonos"
+keywords = ["cli", "javascript", "playwright", "wget", "html"]
+categories = ["command-line-utilities", "web-programming"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+    "scripts/package.json",
+    "scripts/render-bin",
+    "scripts/render.js"
+]
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
