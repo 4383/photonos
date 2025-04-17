@@ -1,6 +1,6 @@
 [package]
 name = "photonos"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Hervé Beraud <herveberaud.pro@gmail.com>"]
 description = "A wget-like CLI that renders JavaScript-powered pages using Chromium with pure Rust"
