@@ -1,8 +1,0 @@
-{
-    "name": "render",
-    "bin": "render.js",
-    "scripts": {},
-    "dependencies": {
-      "playwright": "^1.42.0"
-    }
-  }

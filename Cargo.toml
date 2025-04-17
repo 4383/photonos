@@ -3,21 +3,22 @@ name = "photonos"
 version = "0.1.0"
 edition = "2021"
 authors = ["Hervé Beraud <herveberaud.pro@gmail.com>"]
-description = "A wget-like CLI that renders JavaScript-powered pages using Playwright"
+description = "A wget-like CLI that renders JavaScript-powered pages using Chromium with pure Rust"
 license = "LGPL-2.1"
 readme = "README.md"
 repository = "https://github.com/4383/photonos"
-keywords = ["cli", "javascript", "playwright", "wget", "html"]
+keywords = ["cli", "javascript", "chromium", "wget", "html"]
 categories = ["command-line-utilities", "web-programming"]
-# Au lieu d'utiliser include, on va utiliser exclude qui est plus adapté ici
-exclude = [
-    "scripts/node_modules/",
-    "scripts/render-bin",
-    "scripts/node_modules/playwright-core/LICENSE",
-    "scripts/node_modules/playwright-core/README.md",
-    "scripts/node_modules/playwright/LICENSE",
-    "scripts/node_modules/playwright/README.md"
-]
 
 [dependencies]
 clap = { version = "4.4", features = ["derive"] }
+chromiumoxide = { version = "0.5", features = ["tokio-runtime"] }
+tokio = { version = "1", features = ["full"] }
+futures = "0.3"
+anyhow = "1.0"
+tokio-util = "0.7"
+async-std = { version = "1", features = ["attributes"] }
+built = "0.6"
+
+[build-dependencies]
+built = "0.6"
