@@ -38,6 +38,10 @@ struct Cli {
     /// Enable Chrome browser installation check
     #[arg(long)]
     check_browser: bool,
+    
+    /// Custom user-agent string
+    #[arg(short = 'A', long, value_name = "STRING")]
+    user_agent: Option<String>,
 }
 
 // Check if Chrome/Chromium is installed
@@ -72,7 +76,7 @@ fn check_chrome_installation() -> bool {
 }
 
 // New function to render the page with chromiumoxide
-async fn render_page(url: &str, screenshot_path: Option<&str>) -> Result<String> {
+async fn render_page(url: &str, screenshot_path: Option<&str>, user_agent: Option<&str>) -> Result<String> {
     // Configure and launch the browser with appropriate configuration
     let browser_config = BrowserConfig::builder()
         // Additional arguments to improve stability
@@ -117,8 +121,15 @@ async fn render_page(url: &str, screenshot_path: Option<&str>) -> Result<String>
     page.execute(viewport_params).await?;
     
     // Increase the default timeout for requests
+    let user_agent_value = user_agent.unwrap_or("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
+    
+    // Log the user agent being used
+    if let Some(custom_ua) = user_agent {
+        println!("Using custom User-Agent: {}", custom_ua);
+    }
+    
     let timeout_params = chromiumoxide::cdp::browser_protocol::network::SetUserAgentOverrideParams::builder()
-        .user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+        .user_agent(user_agent_value)
         .accept_language("en-US,en;q=0.9")
         .platform("Linux")
         .build()
@@ -217,7 +228,7 @@ fn main() -> Result<()> {
     // Run the page rendering in the runtime
     let html = rt.block_on(async {
         let screenshot_path = cli.screenshot.as_deref();
-        render_page(&cli.url, screenshot_path).await
+        render_page(&cli.url, screenshot_path, cli.user_agent.as_deref()).await
     })?;
 
     // Write the HTML to a file
